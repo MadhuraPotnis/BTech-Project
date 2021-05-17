@@ -1,0 +1,52 @@
+plugins {
+	id 'org.springframework.boot' version '2.4.3'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '15'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+configurations {
+	ajc
+	aspects {
+		extendsFrom runtime
+	}
+	compile.exclude module: "spring-boot-starter-tomcat"
+}
+
+dependencies {
+	compile("org.springframework.boot:spring-boot-starter-undertow")
+	configurations {
+		compile.exclude module: "tomcat-jdbc"
+	}
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+	compile 'org.pcap4j:pcap4j-core:2.0.0-alpha.6'
+    compile 'org.pcap4j:pcap4j-packetfactory-static:2.0.0-alpha.6'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	compileOnly 'org.projectlombok:lombok'
+    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.23'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'{
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+}
+
+test {
+	useJUnitPlatform()
+}
